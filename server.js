@@ -2,7 +2,15 @@
 const express = require('express');
 //setup application for entire server by calling express function
 const app =express();
+//creating user router that contains all routes containing /users
+const usersRouter = require('./routes/users');
 
+
+//APP.USE ------------------------------------------------------
+//setting the /users path to be the start of all usersRouter requests. So all start with /users
+app.use('/users', usersRouter)
+
+//APP.SET ------------------------------------------------------
 //setting the view engine of the application to render ejs files on the server
 app.set('view engine', 'ejs')
 
@@ -14,6 +22,7 @@ app.set('view engine', 'ejs')
 app.get("/", (req,res)=>{
     res.render("index", {text: "World"})
 })
+
 
 
 
