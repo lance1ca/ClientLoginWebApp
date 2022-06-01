@@ -4,13 +4,12 @@ const express = require('express');
 //setup application for entire server by calling express function
 const app =express();
 
-//Creating exprress layouts for ejs files
+//Creating express layouts for ejs files
 const expressLayouts = require('express-ejs-layouts')
 
 //Routers
 //creating user router that contains all routes containing /users
 const usersRouter = require('./routes/users');
-
 //index router for template
 const indexRouter = require('./routes/index')
 
@@ -19,9 +18,13 @@ const indexRouter = require('./routes/index')
 //APP.SET ------------------------------------------------------
 //setting the view engine of the application to render ejs files on the server
 app.set('view engine', 'ejs')
+
 //setting where the different views of files are coming from, this is in the current directory and views folder
+//views files are "html" that is inserted into layout
 app.set('views', __dirname+'/views')
+
 //setting a layout file, so every file has the same layout (header and footer)
+//express starts layout in /views
 app.set('layout','layouts/layout')
 
 
@@ -30,7 +33,9 @@ app.set('layout','layouts/layout')
 
 //telling app to use express layouts, and where the public (stylesheets and js and images) are stored
 app.use(expressLayouts)
+
 //This is where we set the css and js files to be href in ejs files. So we assume we are always working out of public
+//all static files found in public (css and js, and images)
 app.use(express.static('public'))
 
 //setting the /users path to be the start of all usersRouter requests. So all start with /users
