@@ -3,13 +3,16 @@ const express = require('express');
 //setup application for entire server by calling express function
 const app =express();
 
+//setting the view engine of the application to render ejs files on the server
+app.set('view engine', 'ejs')
+
 
 
 //Routes:
 
 //get request for the root path
 app.get("/", (req,res)=>{
-    res.send("Hello")
+    res.render("index", {text: "World"})
 })
 
 
