@@ -43,11 +43,11 @@ router.get('/logout', (req,res)=>{
 //This route is posting the inputting information for the register user form and inserting it into the database
 //we define the callback function as async since we require an await within it
 router.post('/register', 
-body('email').isEmail(), 
-body('password').isLength({min: 4}), 
+body('email', 'Invalid email address').isEmail(), 
+body('password', 'Password must be at least 4 characters').isLength({min: 4}), 
 //body('password'),
 //body('password_confirm'),
-body('first_name').exists({checkFalsy: true}), 
+body('first_name', 'First name is required').exists({checkFalsy: true}), 
 //body('last_name'),
 async (req,res)=>{
 
@@ -102,7 +102,25 @@ client.query(
      } 
  )
     }else{
+        let allErrors = []
         console.log(errors)
+        
+        //for each loop to iterate through all errors (if any), and extract their messages
+    
+        // Then we redirect the user back to the register page and send in the allErrors array
+        // which will be used to display the errors
+        //res.redirect('users/register', {})
+
+        /* paste something like this into the register.ejs 
+        <% if(register_errors.length >0) { %>
+    <% register_errors.forEach((error)=>{ %>
+<%= error%>
+<br>
+   <% }) %>
+    
+
+<%}%>
+        */
     }
 
 })
