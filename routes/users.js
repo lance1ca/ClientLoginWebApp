@@ -9,6 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 const flash = require('connect-flash')
 const session = require('express-session')
+const { body, validationResult } = require('express-validator');
 
 router.use(express.urlencoded({extended:true}))
 
@@ -41,12 +42,21 @@ router.get('/logout', (req,res)=>{
 
 //This route is posting the inputting information for the register user form and inserting it into the database
 //we define the callback function as async since we require an await within it
-router.post('/register', async (req,res)=>{
+router.post('/register', 
+body('email').isEmail(), 
+body('password').isLength({min: 4}), 
+//body('password'),
+//body('password_confirm'),
+body('first_name').exists({checkFalsy: true}), 
+//body('last_name'),
+async (req,res)=>{
 
 //logging the requests body to see user input
 console.log(req.body)
 
+const errors = validationResult(req)
 
+if(errors.isEmpty()){
 //initializing all of the required fields to be inserted
 //I think you can use req.params.first_name as well.
 uuid = uuidv4();
@@ -91,6 +101,9 @@ client.query(
          }
      } 
  )
+    }else{
+        console.log(errors)
+    }
 
 })
 
