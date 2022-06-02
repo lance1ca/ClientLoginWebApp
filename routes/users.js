@@ -27,15 +27,24 @@ router.get('/logout', (req,res)=>{
 })
 
 
+//This route is posting the inputting information for the register user form and inserting it into the database
 router.post('/register', async (req,res)=>{
 
+//logging the requests body
 console.log(req.body)
+
+//initializing all of the required fields to be inserted
 uuid = uuidv4();
 first_name = req.body.first_name
 last_name = req.body.last_name
 email = req.body.email
 password = req.body.password
 
+//encrypting the password using bcrypt
+// From bcrypt npm documentation: 
+//bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+    // Store hash in your password DB.
+//});
 encryptedPassword = await bcrypt.hash(password,10)
 
 console.log(uuid, first_name, last_name, email, password, encryptedPassword)
