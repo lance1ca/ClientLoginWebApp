@@ -1,17 +1,29 @@
+
+//This allows us to access the env file
+require('dotenv').config()
 //importing express and creating a new router
 const express = require('express');
 const router = express.Router();
 const client = require('../database.js')
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
-
+const flash = require('connect-flash')
+const session = require('express-session')
 
 router.use(express.urlencoded({extended:true}))
+
+router.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false, //Should we resave our session variables if nothing has changed
+    saveUnitialized: false //Do you want to save an empty value in session if there is no value
+}))
+
+router.use(flash())
 
 //routers allow us to nest itself inside a parent route like users
 //so each router.get will automatically have /users/_______
 router.get('/login', (req,res)=>{
-    res.render("login")
+    res.render("login", {register_message: req.flash('register_message')})
 })
 
 router.get('/register', (req,res)=>{
@@ -43,6 +55,11 @@ last_name = req.body.last_name
 email = req.body.email
 password = req.body.password
 
+
+
+//**VERIFY USER INPUT HERE BEFORE PROCEEDING TO HASH AND REGISTER THE USER**
+
+
 //encrypting the password using bcrypt
 // From bcrypt npm documentation: 
 //bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
@@ -66,6 +83,9 @@ client.query(
          }else{
              //show that the user has been successfully registered on console
              console.log('User successfully registered')
+
+            //**INSERT SOME SORT OF FLASH TO NOTIFY USER REGISTER WAS SUCCESSFUL**
+            req.flash('register_message', 'Account created successfully')
              //redirect the user to the login page, and send in the successful register message
              res.redirect('/users/login')
          }

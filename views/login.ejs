@@ -1,5 +1,9 @@
 <link rel ="stylesheet" href="/login/login.css" type="text/css"> 
 <h1>LOGIN</h1>
+<% if(register_message.length >0) { %>
+    <%= register_message%>
+
+<%}%>
 <br>
 <form>
     <input type="email" id="email" name="email" placeholder = "Email">
