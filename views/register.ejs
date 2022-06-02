@@ -1,14 +1,14 @@
 <h1>REGISTER</h1>
-<form>
-    <input type="text" id="name" name="name" placeholder = "First Name">
+<form action="/users/register" method="POST">
+    <input type="text" id="first_name" name="first_name" placeholder = "First Name" required>
     <br>
-    <input type="text" id="name" name="name" placeholder = "Last Name">
+    <input type="text" id="last_name" name="last_name" placeholder = "Last Name" required>
     <br>
-    <input type="email" id="email" name="email" placeholder = "Email">
+    <input type="email" id="email" name="email" placeholder = "Email" required>
     <br>
-    <input type="password" id="password" name="password" placeholder = "Password">
+    <input type="password" id="password" name="password" placeholder = "Password" required>
     <br>
-    <input type="password" id="password_confirm" name="password_confirm" placeholder = "Confirm Password">
+    <input type="password" id="password_confirm" name="password_confirm" placeholder = "Confirm Password" required>
     <br>
     <input type="submit" value="Register">
     <br>

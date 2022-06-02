@@ -22,11 +22,5 @@ client.connect((error) => {
   })
 
 
-client.query(`SELECT * FROM clients`, (error,results)=>{
-    if(error){
-        console.log(error)
-    }else{
-        console.log(results.rows)
-    }
-    client.end()
-})
+
+module.exports = client
