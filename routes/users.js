@@ -28,12 +28,15 @@ router.get('/logout', (req,res)=>{
 
 
 //This route is posting the inputting information for the register user form and inserting it into the database
+//we define the callback function as async since we require an await within it
 router.post('/register', async (req,res)=>{
 
-//logging the requests body
+//logging the requests body to see user input
 console.log(req.body)
 
+
 //initializing all of the required fields to be inserted
+//I think you can use req.params.first_name as well.
 uuid = uuidv4();
 first_name = req.body.first_name
 last_name = req.body.last_name
@@ -45,16 +48,26 @@ password = req.body.password
 //bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
     // Store hash in your password DB.
 //});
+//Here we AWAIT the generation of the hashed password before proceeding
 encryptedPassword = await bcrypt.hash(password,10)
 
+//Here we log the different parameters to console before inserting into database
 console.log(uuid, first_name, last_name, email, password, encryptedPassword)
- client.query(
+ 
+//Here we write our insert query using our client to insert the user data into our database
+//We use the syntax of $1, $2, etc as placeholders for the values in the array that follow it
+//Then we have a callback function that displays if the user was registered or if an error occurred
+client.query(
      `INSERT INTO clients (id, first_name, last_name, email, password)
      VALUES ($1, $2, $3, $4, $5)`, [uuid,first_name, last_name,email,encryptedPassword], (error,result)=>{
          if(error){
-             throw error
+             console.log("ERROR registering user and inserting values into database")
+             console.log(error)
          }else{
-             console.log('user registered')
+             //show that the user has been successfully registered on console
+             console.log('User successfully registered')
+             //redirect the user to the login page, and send in the successful register message
+             res.redirect('/users/login')
          }
      } 
  )

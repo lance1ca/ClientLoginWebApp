@@ -15,9 +15,9 @@ const client = new Client({
 
 client.connect((error) => {
     if (error) {
-      console.error('connection error', error.stack)
+      console.error('ERROR connecting to database: \n', error.stack)
     } else {
-      console.log('connected')
+      console.log('Connected to database successfully')
     }
   })
 
