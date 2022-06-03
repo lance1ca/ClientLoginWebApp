@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const flash = require('connect-flash')
 const session = require('express-session')
 const { body, validationResult } = require('express-validator');
+const req = require('express/lib/request');
 
 router.use(express.urlencoded({extended:true}))
 
@@ -32,7 +33,8 @@ router.get('/register', (req,res)=>{
 })
 
 router.get('/dashboard', (req,res)=>{
-    res.render("dashboard")
+    console.log(req.body.first_name)
+    res.render("dashboard", {name: req.flash('name')})
 })
 
 router.get('/logout', (req,res)=>{
@@ -43,9 +45,16 @@ router.get('/logout', (req,res)=>{
 //This route is posting the inputting information for the register user form and inserting it into the database
 //we define the callback function as async since we require an await within it
 router.post('/register', 
-body('email', 'Invalid email address').isEmail(), 
+body('email', 'Invalid email address').isEmail().normalizeEmail(),
 body('password', 'Password must be at least 4 characters').isLength({min: 4}), 
-//body('password'),
+body('password_confirm').custom((value, {req})=>{
+if(value !== req.body.password){
+    throw new Error('Passwords do not match')
+}else{
+    console.log('Passwords match')
+    return true
+}
+}),
 //body('password_confirm'),
 body('first_name', 'First name is required').exists({checkFalsy: true}), 
 //body('last_name'),
@@ -103,7 +112,7 @@ client.query(
  )
     }else{
         let register_errors = []
-
+console.log(errors)
         //for loop to iterate through all errors (if any), and extract their messages
         for(let i=0; i < errors.errors.length; i++){
             //console.log("message:" +i +" "+errors.errors[i].msg)
