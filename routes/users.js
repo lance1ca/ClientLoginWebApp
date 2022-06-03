@@ -8,11 +8,24 @@ const client = require('../database.js')
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 const flash = require('connect-flash')
+const expressFlash = require('express-flash')
 const session = require('express-session')
 const { body, validationResult } = require('express-validator');
-const req = require('express/lib/request');
+
+
+//passport stuff
+const initializePassport = require('../passport.js')
+const passport = require('passport');
+const { append } = require('express/lib/response');
+initializePassport(passport, 
+    email =>{
+    return users.find(user => user.email ===email)
+})
 
 router.use(express.urlencoded({extended:true}))
+
+router.use(flash())
+router.use(expressFlash())
 
 router.use(session({
     secret: process.env.SESSION_SECRET,
@@ -20,7 +33,9 @@ router.use(session({
     saveUninitialized : false //Do you want to save an empty value in session if there is no value
 }))
 
-router.use(flash())
+router.use(passport.initialize())
+router.use(passport.session())
+
 
 //routers allow us to nest itself inside a parent route like users
 //so each router.get will automatically have /users/_______
@@ -41,12 +56,26 @@ router.get('/logout', (req,res)=>{
     res.render("logout")
 })
 
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/users/dashboard',
+    failureRedirect: '/users/login',
+    failureFlash: true
+}))
+
+/*
+,(req,res)=>{
+    req.flash('login_message', login_message)
+    res.redirect('/users/login')
+}
+*/
+
 
 //This route is posting the inputting information for the register user form and inserting it into the database
 //we define the callback function as async since we require an await within it
 router.post('/register', 
+//below are our validator checks for the user input:
 body('email', 'Invalid email address').isEmail().normalizeEmail(),
-body('password', 'Password must be at least 4 characters').isLength({min: 4}), 
+body('password', 'Password must be at least 8 characters, contain 1 upper case, 1 number, and 1 symbol. Please Try again').isLength({min: 4}).isStrongPassword(), 
 body('password_confirm').custom((value, {req})=>{
 if(value !== req.body.password){
     throw new Error('Passwords do not match')
@@ -55,9 +84,11 @@ if(value !== req.body.password){
     return true
 }
 }),
-//body('password_confirm'),
+//This checks if the first & last name exists in the fields, then we check falsy.
+//if check falsy is true, fields with falsy values ("",0,false,null) will NOT exist, so here we check if the values don't exist
 body('first_name', 'First name is required').exists({checkFalsy: true}), 
-//body('last_name'),
+body('last_name', 'Last name is required').exists({checkFalsy: true}), 
+
 async (req,res)=>{
 
 //logging the requests body to see user input
@@ -75,15 +106,6 @@ email = req.body.email
 password = req.body.password
 
 
-
-//**VERIFY USER INPUT HERE BEFORE PROCEEDING TO HASH AND REGISTER THE USER**
-
-
-//encrypting the password using bcrypt
-// From bcrypt npm documentation: 
-//bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
-    // Store hash in your password DB.
-//});
 //Here we AWAIT the generation of the hashed password before proceeding
 encryptedPassword = await bcrypt.hash(password,10)
 
@@ -103,7 +125,7 @@ client.query(
              //show that the user has been successfully registered on console
              console.log('User successfully registered')
 
-            //**INSERT SOME SORT OF FLASH TO NOTIFY USER REGISTER WAS SUCCESSFUL**
+            
             req.flash('register_message', 'Account created successfully')
              //redirect the user to the login page, and send in the successful register message
              res.redirect('/users/login')
