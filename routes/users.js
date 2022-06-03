@@ -1,7 +1,7 @@
 
 //This allows us to access the env file
 require('dotenv').config()
-//importing express and creating a new router
+//importing required npm packages and creating a new router
 const express = require('express');
 const router = express.Router();
 const client = require('../database.js')
@@ -117,9 +117,6 @@ client.query(
         req.flash('register_errors', register_errors)
         res.redirect('/users/register')
 
-        /*
-
-        */
       
     }
 
