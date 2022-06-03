@@ -28,7 +28,7 @@ router.get('/login', (req,res)=>{
 })
 
 router.get('/register', (req,res)=>{
-    res.render("register")
+    res.render("register", {register_errors: req.flash('register_errors')})
 })
 
 router.get('/dashboard', (req,res)=>{
@@ -102,25 +102,25 @@ client.query(
      } 
  )
     }else{
-        let allErrors = []
-        console.log(errors)
+        let register_errors = []
+
+        //for loop to iterate through all errors (if any), and extract their messages
+        for(let i=0; i < errors.errors.length; i++){
+            //console.log("message:" +i +" "+errors.errors[i].msg)
+            register_errors[i]= errors.errors[i].msg
+        }
+
         
-        //for each loop to iterate through all errors (if any), and extract their messages
     
         // Then we redirect the user back to the register page and send in the allErrors array
         // which will be used to display the errors
-        //res.redirect('users/register', {})
+        req.flash('register_errors', register_errors)
+        res.redirect('/users/register')
 
-        /* paste something like this into the register.ejs 
-        <% if(register_errors.length >0) { %>
-    <% register_errors.forEach((error)=>{ %>
-<%= error%>
-<br>
-   <% }) %>
-    
+        /*
 
-<%}%>
         */
+      
     }
 
 })

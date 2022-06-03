@@ -1,5 +1,12 @@
 <h1>REGISTER</h1>
+<% if(register_errors.length >0) { %>
+    <% register_errors.forEach((error)=>{ %>
+<%= error%>
+<br>
+   <% }) %>
+    
 
+<%}%>
 <form action="/users/register" method="POST">
     <input type="text" id="first_name" name="first_name" placeholder = "First Name" required>
     <br>
