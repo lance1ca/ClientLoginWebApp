@@ -81,7 +81,24 @@ router.post('/login', passport.authenticate('local', {
 router.post('/register', 
 //below are our validator checks for the user input:
 body('email', 'Invalid email address').isEmail().normalizeEmail(),
-body('password', 'Password must be at least 8 characters, contain 1 upper case, 1 number, and 1 symbol. Please Try again').isLength({min: 4}).isStrongPassword(), 
+body('password', 'Password must be at least 8 characters, contain 1 upper case, 1 number, and 1 symbol. Please Try again').isLength({min: 8}).isStrongPassword(), 
+body('password').custom((value)=>{
+//password strength stuff
+const passwordCracking = zxcvbn(value)
+console.log(passwordCracking)
+const passwordScore = passwordCracking.score
+const passwordSuggestions = passwordCracking.feedback.suggestions
+console.log("The users password scored a " + passwordScore +" out of 5")
+console.log("Suggestions for the users password " + passwordSuggestions)
+
+if(passwordScore <2){
+    throw new Error('Password must have a score of at least 2/5, your password scored ' + passwordScore +"/5\n" +"\nTry these suggestions:\n"+passwordSuggestions)
+}else{
+    console.log('Password is strong enough and scored ' + passwordScore +"/5, proceeding to next check.")
+    return true
+}
+
+}),
 body('password_confirm').custom((value, {req})=>{
 if(value !== req.body.password){
     throw new Error('Passwords do not match')
@@ -138,12 +155,7 @@ first_name = req.body.first_name
 last_name = req.body.last_name
 email = req.body.email
 password = req.body.password
-const passwordCracking = zxcvbn(password)
-console.log(passwordCracking)
-const passwordScore = passwordCracking.score
-const passwordSuggestions = passwordCracking.feedback.suggestions
-console.log("The users password scored a " + passwordScore +" out of 5")
-console.log("Suggestions for the users password " + passwordSuggestions)
+
 
 
 
