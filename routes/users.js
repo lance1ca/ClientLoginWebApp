@@ -17,6 +17,7 @@ const { body, validationResult } = require('express-validator');
 const initializePassport = require('../passport.js')
 const passport = require('passport');
 const { append } = require('express/lib/response');
+const { Pool } = require('pg/lib');
 initializePassport(passport, 
     email =>{
     return users.find(user => user.email ===email)
@@ -87,7 +88,27 @@ if(value !== req.body.password){
 //This checks if the first & last name exists in the fields, then we check falsy.
 //if check falsy is true, fields with falsy values ("",0,false,null) will NOT exist, so here we check if the values don't exist
 body('first_name', 'First name is required').exists({checkFalsy: true}), 
-body('last_name', 'Last name is required').exists({checkFalsy: true}), 
+body('last_name', 'Last name is required').exists({checkFalsy: true}),
+body('email', 'User with this email is already registered, please log in.').custom(async (value)=>{
+try{
+    results = await client.query(`
+    SELECT * FROM clients WHERE email = $1`, [value])
+}catch (error){
+    console.log('Error trying to query database to check if a user with the entered email already exists upon registration.')
+}
+
+    
+        if(results.rows.length > 0){
+            
+            throw new Error('A user with this email is already registered, please log in.')
+        }else{
+            
+            console.log('This email has not been registered before, proceeding to register new user.')
+            return true
+        }
+
+        
+    }), 
 
 async (req,res)=>{
 
@@ -134,7 +155,7 @@ client.query(
  )
     }else{
         let register_errors = []
-console.log(errors)
+console.log('ERRORS BELOW\n',errors)
         //for loop to iterate through all errors (if any), and extract their messages
         for(let i=0; i < errors.errors.length; i++){
             //console.log("message:" +i +" "+errors.errors[i].msg)
