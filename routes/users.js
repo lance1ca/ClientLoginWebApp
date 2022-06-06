@@ -42,16 +42,16 @@ router.use(expressFlash())
 
 //routers allow us to nest itself inside a parent route like users
 //so each router.get will automatically have /users/_______
-router.get('/login', (req,res)=>{
+router.get('/login',checkUserIsAuthenticated, (req,res)=>{
     
     res.render("login", {register_message: req.flash('register_message')})
 })
 
-router.get('/register', (req,res)=>{
+router.get('/register', checkUserIsAuthenticated, (req,res)=>{
     res.render("register", {register_errors: req.flash('register_errors')})
 })
 
-router.get('/dashboard', (req,res)=>{
+router.get('/dashboard',checkUserIsNOTAuthenticated, (req,res)=>{
     console.log(req.user)
     res.render("dashboard", {user: req.user.first_name})
 })
@@ -197,6 +197,27 @@ console.log('ERRORS BELOW\n',errors)
 
 //Look into router.route() and chaining get,put,delete etc when needed later on
 //Look into router.param() when needed
+
+
+//this checks if the user is authenticated, if they are we redirect them to
+//the dashboard, otherwise we proceed to the next middleware
+function checkUserIsAuthenticated(req,res,next){
+    if(req.isAuthenticated()){
+        return res.redirect('/users/dashboard')
+    }else{
+        next()
+    }
+}
+
+//this checks if the user is not authenticated, if they are, we proceed,
+//if they are not, then we redirect them to the login page
+function checkUserIsNOTAuthenticated(req,res,next){
+    if(req.isAuthenticated()){
+        return next()
+    }else{
+        res.redirect('/users/login')
+    }
+}
 
 
 
