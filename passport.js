@@ -1,3 +1,4 @@
+//working
 //importing required resources
 const LocalStrategy = require('passport-local').Strategy
 const client = require('./database.js')
