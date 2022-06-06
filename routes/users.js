@@ -89,15 +89,22 @@ if(value !== req.body.password){
 //if check falsy is true, fields with falsy values ("",0,false,null) will NOT exist, so here we check if the values don't exist
 body('first_name', 'First name is required').exists({checkFalsy: true}), 
 body('last_name', 'Last name is required').exists({checkFalsy: true}),
+//This checks if a user already exists in the database with the email being registered in the register section
+//AKA this checks if the user already has an account made with this email.
 body('email', 'User with this email is already registered, please log in.').custom(async (value)=>{
-try{
+//trying to run the query and AWAITING its result before proceeding
+//catching an error and printing a descriptive message out if it fails
+    try{
     results = await client.query(`
     SELECT * FROM clients WHERE email = $1`, [value])
 }catch (error){
     console.log('Error trying to query database to check if a user with the entered email already exists upon registration.')
 }
 
-    
+    // if the results objects rows length is greater than 0, aka if the number of rows
+    //returned from the database query is more than 0, then there is another user with this email
+    //and hence we throw an error with a message, otherwise, we indicate success and that no user has this email
+    // and we proceed to register the user
         if(results.rows.length > 0){
             
             throw new Error('A user with this email is already registered, please log in.')
