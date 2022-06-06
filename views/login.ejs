@@ -11,6 +11,11 @@
 
 <%}%>
 
+<% if(messages.logout_msg) { %>
+    <%= messages.logout_msg%>
+
+<%}%>
+
 <form action="/users/login" method="POST">
     <input type="email" id="email" name="email" placeholder = "Email">
     <br>

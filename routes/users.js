@@ -57,7 +57,13 @@ router.get('/dashboard', (req,res)=>{
 })
 
 router.get('/logout', (req,res)=>{
-    res.render("logout")
+    req.logOut((error)=>{
+        if(error){
+            return next(error)
+        }
+    req.flash('logout_msg', 'You have successfully logged out')
+    res.redirect('/users/login' )
+    });
 })
 
 router.post('/login', passport.authenticate('local', {
