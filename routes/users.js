@@ -14,18 +14,16 @@ const { body, validationResult } = require('express-validator');
 
 
 //passport stuff
-const initializePassport = require('../passport.js')
 const passport = require('passport');
-const { append } = require('express/lib/response');
-const { Pool } = require('pg/lib');
-initializePassport(passport, 
-    email =>{
-    return users.find(user => user.email ===email)
-})
+const initializePassport = require('../passport.js')
+initializePassport(passport)
 
 router.use(express.urlencoded({extended:true}))
 
 router.use(flash())
+router.use(passport.initialize())
+
+//passport flash item below:
 router.use(expressFlash())
 
 router.use(session({
@@ -34,8 +32,7 @@ router.use(session({
     saveUninitialized : false //Do you want to save an empty value in session if there is no value
 }))
 
-router.use(passport.initialize())
-router.use(passport.session())
+
 
 
 //routers allow us to nest itself inside a parent route like users
@@ -49,8 +46,8 @@ router.get('/register', (req,res)=>{
 })
 
 router.get('/dashboard', (req,res)=>{
-    console.log(req.body.first_name)
-    res.render("dashboard", {name: req.flash('name')})
+    console.log(req.first_name)
+    res.render("dashboard", {user: "Lance"})
 })
 
 router.get('/logout', (req,res)=>{
@@ -63,12 +60,7 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true
 }))
 
-/*
-,(req,res)=>{
-    req.flash('login_message', login_message)
-    res.redirect('/users/login')
-}
-*/
+
 
 
 //This route is posting the inputting information for the register user form and inserting it into the database
@@ -100,6 +92,7 @@ body('email', 'User with this email is already registered, please log in.').cust
 }catch (error){
     console.log('Error trying to query database to check if a user with the entered email already exists upon registration.')
 }
+console.log("RESULTS OF EMAIL QUERY:\n",results.rows)
 
     // if the results objects rows length is greater than 0, aka if the number of rows
     //returned from the database query is more than 0, then there is another user with this email
@@ -120,7 +113,7 @@ body('email', 'User with this email is already registered, please log in.').cust
 async (req,res)=>{
 
 //logging the requests body to see user input
-console.log(req.body)
+console.log("REQUEST BODY: \n",req.body)
 
 const errors = validationResult(req)
 
