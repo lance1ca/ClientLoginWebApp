@@ -1,6 +1,7 @@
 
 //This allows us to access the env file
 require('dotenv').config()
+
 //importing required npm packages and creating a new router
 const express = require('express');
 const router = express.Router();
