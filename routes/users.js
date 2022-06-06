@@ -11,6 +11,7 @@ const flash = require('connect-flash')
 const expressFlash = require('express-flash')
 const session = require('express-session')
 const { body, validationResult } = require('express-validator');
+const zxcvbn = require('zxcvbn')
 
 
 
@@ -137,6 +138,13 @@ first_name = req.body.first_name
 last_name = req.body.last_name
 email = req.body.email
 password = req.body.password
+const passwordCracking = zxcvbn(password)
+console.log(passwordCracking)
+const passwordScore = passwordCracking.score
+const passwordSuggestions = passwordCracking.feedback.suggestions
+console.log("The users password scored a " + passwordScore +" out of 5")
+console.log("Suggestions for the users password " + passwordSuggestions)
+
 
 
 //Here we AWAIT the generation of the hashed password before proceeding
