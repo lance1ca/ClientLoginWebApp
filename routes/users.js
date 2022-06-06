@@ -13,19 +13,14 @@ const session = require('express-session')
 const { body, validationResult } = require('express-validator');
 
 
+
+
 //passport stuff
 const passport = require('passport');
 const initializePassport = require('../passport.js')
 initializePassport(passport)
 
-router.use(express.urlencoded({extended:true}))
-
-router.use(flash())
-router.use(passport.initialize())
-
-//passport flash item below:
-router.use(expressFlash())
-
+router.use(express.urlencoded({extended:false}))
 router.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false, //Should we resave our session variables if nothing has changed
@@ -34,10 +29,21 @@ router.use(session({
 
 
 
+router.use(flash())
+//router.use(expressFlash())
+router.use(passport.initialize())
+router.use(passport.session())
+
+//passport flash item below:
+router.use(expressFlash())
+
+
+
 
 //routers allow us to nest itself inside a parent route like users
 //so each router.get will automatically have /users/_______
 router.get('/login', (req,res)=>{
+    
     res.render("login", {register_message: req.flash('register_message')})
 })
 
@@ -46,8 +52,8 @@ router.get('/register', (req,res)=>{
 })
 
 router.get('/dashboard', (req,res)=>{
-    console.log(req.first_name)
-    res.render("dashboard", {user: "Lance"})
+    console.log(req.user)
+    res.render("dashboard", {user: req.user.first_name})
 })
 
 router.get('/logout', (req,res)=>{

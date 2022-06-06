@@ -27,13 +27,15 @@ function initialize(passport){
                         console.log(user)
                         return done(null, user)
                     }else{
-                        return done(null, false, {messages: "Password is not correct."})
+                        //console.log(done(null, false, {messages: "Password is not correct."}))
+                        return done(null, false, {message: "Password is not correct."})
                     }
                 })
 
                 //if there are no users found
             }else{
-                return done(null, false, {messages: "Email is not registered, try creating an account on the register page."})
+                //console.log(done(null, false, {messages: "Email is not registered, try creating an account on the register page."}))
+                return done(null, false, {message: "Email is not registered, try creating an account on the register page."})
             }
         })
     }
