@@ -3,8 +3,10 @@ const zxcvbn = require('zxcvbn')
 
 
 
-function validateForm(){    
-alert("Hello")
+function validateForm(){   
+    //Could also do validateForm(event), event.preventDefault() to ensure that
+    // if the event is not handled, then the action shouldn't be taken
+
 const first_name = document.getElementById('first_name').value;
 const last_name = document.getElementById('last_name').value;
 const email = document.getElementById('email').value;
@@ -62,7 +64,7 @@ if(password === password_confirm){
 
 
 
-if(!isValid){
+if(isValid){
     document.getElementById('register').submit()
 }
 
