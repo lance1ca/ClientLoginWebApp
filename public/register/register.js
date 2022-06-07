@@ -30,7 +30,6 @@ if(validator.isEmail(email)){
     if(validator.isStrongPassword(password)){
 
         //Check that password passes the score test
-
     if(passwordScore >=2){
     
         //Check that passwords match
