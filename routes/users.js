@@ -1,20 +1,20 @@
+//Code by Lance
 
-//This allows us to access the env file
 
 //initialize variable first
 let notInProduction = false
 
+//if the node env is NOT in production, then we set notInProduction to true,
+//which allows for console logging of different info for testing and development purposes
+//Otherwise, it is false since it is in production, and no unsecure or sensitive info is logged.
 if (process.env.NODE_ENV !== "production") {
 
    notInProduction = true
+   //This allows us to access the env file
+   //was not working with heroku, getting errors, going to fix later
     //require('dotenv').config()
 
-
-
 }
-
-console.log(notInProduction)
-console.log(process.env.NODE_ENV !== "production")
 
 //importing required npm packages and creating a new router
 const express = require('express');
