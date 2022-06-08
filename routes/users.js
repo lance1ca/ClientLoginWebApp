@@ -79,6 +79,7 @@ router.post('/login', passport.authenticate('local', {
 
 //This route is posting the inputting information for the register user form and inserting it into the database
 //we define the callback function as async since we require an await within it
+
 router.post('/register', 
 //below are our validator checks for the user input:
 body('email', 'Invalid email address').isEmail().normalizeEmail(),
@@ -142,9 +143,10 @@ body('email', 'User with this email is already registered, please log in.').cust
     }), 
 
 async (req,res)=>{
+    const t1 = Date.now()
 
 //logging the requests body to see user input
-console.log("REQUEST BODY: \n",req.body)
+//onsole.log("REQUEST BODY: \n",req.body)
 
 const errors = validationResult(req)
 
@@ -169,6 +171,8 @@ encryptedPassword = await bcrypt.hash(password,10)
 //Here we write our insert query using our client to insert the user data into our database
 //We use the syntax of $1, $2, etc as placeholders for the values in the array that follow it
 //Then we have a callback function that displays if the user was registered or if an error occurred
+
+
 client.query(
      `INSERT INTO clients (id, first_name, last_name, email, password)
      VALUES ($1, $2, $3, $4, $5)`, [uuid,first_name, last_name,email,encryptedPassword], (error,result)=>{
@@ -205,6 +209,9 @@ console.log('ERRORS BELOW\n',errors)
       
     }
 
+    const t2 = Date.now()
+    console.log(t2-t1)
+    //timer above
 })
 
 //:name of parameter, enables router to get any route with any user_id after 
