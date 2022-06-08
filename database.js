@@ -6,11 +6,11 @@ const {Client} = require('pg')
 
 //creating an object with specific parameters
 const client = new Client({
-    host: ENV["DB_HOST"],
-    user: ENV["DB_USER"],
-    port: ENV["DB_PORT"],
-    password: ENV["DB_PASSWORD"],
-    database: ENV["DB_NAME"]
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    port: process.env.DB_PORT,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 })
 
 client.connect((error) => {

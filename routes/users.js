@@ -24,7 +24,7 @@ initializePassport(passport)
 
 router.use(express.urlencoded({extended:false}))
 router.use(session({
-    secret: ENV["SESSION_SECRET"],
+    secret: process.env.SESSION_SECRET,
     resave: false, //Should we resave our session variables if nothing has changed
     saveUninitialized : false //Do you want to save an empty value in session if there is no value
 }))
