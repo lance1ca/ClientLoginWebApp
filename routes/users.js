@@ -1,6 +1,6 @@
 
 //This allows us to access the env file
-require('dotenv').config()
+//require('dotenv').config()
 
 //importing required npm packages and creating a new router
 const express = require('express');
@@ -24,7 +24,7 @@ initializePassport(passport)
 
 router.use(express.urlencoded({extended:false}))
 router.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: ENV["SESSION_SECRET"],
     resave: false, //Should we resave our session variables if nothing has changed
     saveUninitialized : false //Do you want to save an empty value in session if there is no value
 }))
