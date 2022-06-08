@@ -86,16 +86,16 @@ body('password', 'Password must be at least 8 characters, contain 1 upper case, 
 body('password').custom((value)=>{
 //password strength stuff
 const passwordCracking = zxcvbn(value)
-console.log(passwordCracking)
+//console.log(passwordCracking)
 const passwordScore = passwordCracking.score
 const passwordSuggestions = passwordCracking.feedback.suggestions
-console.log("The users password scored a " + passwordScore +" out of 5")
-console.log("Suggestions for the users password " + passwordSuggestions)
+//console.log("The users password scored a " + passwordScore +" out of 5")
+//console.log("Suggestions for the users password " + passwordSuggestions)
 
 if(passwordScore <2){
     throw new Error('Password must have a score of at least 2/5, your password scored ' + passwordScore +"/5\n" +"\nTry these suggestions:\n"+passwordSuggestions)
 }else{
-    console.log('Password is strong enough and scored ' + passwordScore +"/5, proceeding to next check.")
+    //console.log('Password is strong enough and scored ' + passwordScore +"/5, proceeding to next check.")
     return true
 }
 
@@ -104,7 +104,7 @@ body('password_confirm').custom((value, {req})=>{
 if(value !== req.body.password){
     throw new Error('Passwords do not match')
 }else{
-    console.log('Passwords match')
+    //console.log('Passwords match')
     return true
 }
 }),
@@ -123,7 +123,7 @@ body('email', 'User with this email is already registered, please log in.').cust
 }catch (error){
     console.log('Error trying to query database to check if a user with the entered email already exists upon registration.')
 }
-console.log("RESULTS OF EMAIL QUERY:\n",results.rows)
+//console.log("RESULTS OF EMAIL QUERY:\n",results.rows)
 
     // if the results objects rows length is greater than 0, aka if the number of rows
     //returned from the database query is more than 0, then there is another user with this email
@@ -164,7 +164,7 @@ password = req.body.password
 encryptedPassword = await bcrypt.hash(password,10)
 
 //Here we log the different parameters to console before inserting into database
-console.log(uuid, first_name, last_name, email, password, encryptedPassword)
+//console.log(uuid, first_name, last_name, email, password, encryptedPassword)
  
 //Here we write our insert query using our client to insert the user data into our database
 //We use the syntax of $1, $2, etc as placeholders for the values in the array that follow it
