@@ -3,7 +3,7 @@
 
 let notInProduction = false
 
-if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV !== "production") {
 
    notInProduction = true
     //require('dotenv').config()
@@ -11,6 +11,9 @@ if (process.env.NODE_ENV == "production") {
 
 
 }
+
+console.log(notInProduction)
+console.log(process.env.NODE_ENV !== "production")
 
 //importing required npm packages and creating a new router
 const express = require('express');
