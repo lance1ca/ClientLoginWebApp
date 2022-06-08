@@ -1,5 +1,12 @@
 //REQUIRING/IMPORTS ------------------------------------------------------
+if (process.env.NODE_ENV !== "production") {
 
+    const notInProduction = true
+    require('dotenv').config()
+  
+  
+  
+  }
 
 //import express library
 const express = require('express');
@@ -55,6 +62,7 @@ app.use(express.urlencoded({extended:true}))
 
 
 
+
 //Routes:
 
 // //get request for the root path
@@ -70,5 +78,7 @@ const PORT = process.env.PORT || 3000
 
 //Setting the app to listen on the server, and when listening to print out the link
 app.listen(PORT, ()=>{
+    if(notInProduction){
     console.log(`The server is running on local port http://localhost:${PORT}`)
+    }
 })

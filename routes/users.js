@@ -1,6 +1,16 @@
 
 //This allows us to access the env file
-//require('dotenv').config()
+
+
+
+if (process.env.NODE_ENV == "production") {
+
+   const notInProduction = true
+    require('dotenv').config()
+
+
+
+}
 
 //importing required npm packages and creating a new router
 const express = require('express');
@@ -54,7 +64,9 @@ router.get('/register', checkUserIsAuthenticated, (req,res)=>{
 })
 
 router.get('/dashboard',checkUserIsNOTAuthenticated, (req,res)=>{
+    if(notInProduction){
     console.log(req.user)
+    }
     res.render("dashboard", {user: req.user.first_name})
 })
 
@@ -87,11 +99,15 @@ body('password', 'Password must be at least 8 characters, contain 1 upper case, 
 body('password').custom((value)=>{
 //password strength stuff
 const passwordCracking = zxcvbn(value)
-//console.log(passwordCracking)
+
+
 const passwordScore = passwordCracking.score
 const passwordSuggestions = passwordCracking.feedback.suggestions
-//console.log("The users password scored a " + passwordScore +" out of 5")
-//console.log("Suggestions for the users password " + passwordSuggestions)
+if(notInProduction){
+console.log(passwordCracking)
+console.log("The users password scored a " + passwordScore +" out of 5")
+console.log("Suggestions for the users password " + passwordSuggestions)
+}
 
 if(passwordScore <2){
     throw new Error('Password must have a score of at least 2/5, your password scored ' + passwordScore +"/5\n" +"\nTry these suggestions:\n"+passwordSuggestions)
@@ -105,7 +121,9 @@ body('password_confirm').custom((value, {req})=>{
 if(value !== req.body.password){
     throw new Error('Passwords do not match')
 }else{
-    //console.log('Passwords match')
+    if(notInProduction){
+    console.log('Passwords match')
+    }
     return true
 }
 }),
@@ -122,9 +140,16 @@ body('email', 'User with this email is already registered, please log in.').cust
     results = await client.query(`
     SELECT * FROM clients WHERE email = $1`, [value])
 }catch (error){
-    console.log('Error trying to query database to check if a user with the entered email already exists upon registration.')
+    if(notInProduction){
+    console.error('Error trying to query database to check if a user with the entered email already exists upon registration.')
+    }else{
+        console.log(error)
+    }
 }
-//console.log("RESULTS OF EMAIL QUERY:\n",results.rows)
+
+if(notInProduction){
+console.log("RESULTS OF EMAIL QUERY:\n",results.rows)
+}
 
     // if the results objects rows length is greater than 0, aka if the number of rows
     //returned from the database query is more than 0, then there is another user with this email
@@ -135,7 +160,9 @@ body('email', 'User with this email is already registered, please log in.').cust
             throw new Error('A user with this email is already registered, please log in.')
         }else{
             
+            if(notInProduction){
             console.log('This email has not been registered before, proceeding to register new user.')
+            }
             return true
         }
 
@@ -143,10 +170,12 @@ body('email', 'User with this email is already registered, please log in.').cust
     }), 
 
 async (req,res)=>{
-    const t1 = Date.now()
+    
 
 //logging the requests body to see user input
-//onsole.log("REQUEST BODY: \n",req.body)
+if(notInProduction){
+console.log("REQUEST BODY: \n",req.body)
+}
 
 const errors = validationResult(req)
 
@@ -166,7 +195,9 @@ password = req.body.password
 encryptedPassword = await bcrypt.hash(password,10)
 
 //Here we log the different parameters to console before inserting into database
-//console.log(uuid, first_name, last_name, email, password, encryptedPassword)
+if(notInProduction){
+console.log(uuid, first_name, last_name, email, password, encryptedPassword)
+}
  
 //Here we write our insert query using our client to insert the user data into our database
 //We use the syntax of $1, $2, etc as placeholders for the values in the array that follow it
@@ -177,11 +208,16 @@ client.query(
      `INSERT INTO clients (id, first_name, last_name, email, password)
      VALUES ($1, $2, $3, $4, $5)`, [uuid,first_name, last_name,email,encryptedPassword], (error,result)=>{
          if(error){
+            if(notInProduction){
              console.log("ERROR registering user and inserting values into database")
+            }else{
              console.log(error)
+            }
          }else{
              //show that the user has been successfully registered on console
+             if(notInProduction){
              console.log('User successfully registered')
+             }
 
             
             req.flash('register_message', 'Account created successfully')
@@ -192,7 +228,9 @@ client.query(
  )
     }else{
         let register_errors = []
-console.log('ERRORS BELOW\n',errors)
+        if(notInProduction){
+        console.log('ERRORS BELOW\n',errors)
+        }
         //for loop to iterate through all errors (if any), and extract their messages
         for(let i=0; i < errors.errors.length; i++){
             //console.log("message:" +i +" "+errors.errors[i].msg)
@@ -209,9 +247,7 @@ console.log('ERRORS BELOW\n',errors)
       
     }
 
-    const t2 = Date.now()
-    console.log(t2-t1)
-    //timer above
+  
 })
 
 //:name of parameter, enables router to get any route with any user_id after 
