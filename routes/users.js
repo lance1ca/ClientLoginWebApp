@@ -1,6 +1,7 @@
 
 //This allows us to access the env file
 
+//initialize variable first
 let notInProduction = false
 
 if (process.env.NODE_ENV !== "production") {
