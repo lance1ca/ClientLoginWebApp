@@ -26,6 +26,10 @@ if(!validator.isEmpty(first_name) || !validator.isEmpty(last_name) || !validator
 
 if(validator.isEmail(email)){
     document.getElementById('email').value = validator.normalizeEmail(email)
+
+
+     //Check that passwords match
+     if(password === password_confirm){
     
     //Check that password meets the character,symbol, and number requirements
     if(validator.isStrongPassword(password)){
@@ -33,31 +37,28 @@ if(validator.isEmail(email)){
         //Check that password passes the score test
     if(passwordScore >=2){
     
-        //Check that passwords match
-    if(password === password_confirm){
-    
         //if all of these are true, submit the form, otherwise display an error
         document.getElementById('register').submit()
     }else{
-        alert('Passwords do not match')
+        alert('Password score was ' + passwordScore+"/5, it is not strong enough. Please try again.")
+       
     }
 
 
     }else{
-        alert('Password score was ' + passwordScore+"/5, please try again.")
+        alert('Password does not meet the general requirements. Please include at least 8 characters, 1 upper case, 1 number, and 1 symbol. Try again.')
     }
   
     }else{
-        alert('Password does not meet the requirements.')
+        alert('Passwords do not match. Try again.')
+       
     }   
 }else{
-    alert('Invalid email address')
+    alert('Invalid email address.')
 }
 }else{
-    alert('You are missing fields')
+    alert('You are missing required fields.')
 }
 
 
 }
-
-
