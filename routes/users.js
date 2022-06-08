@@ -1,7 +1,7 @@
 
 //This allows us to access the env file
 
-const notInProduction = false
+let notInProduction = false
 
 if (process.env.NODE_ENV == "production") {
 
