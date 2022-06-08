@@ -12,7 +12,7 @@ if (process.env.NODE_ENV !== "production") {
    notInProduction = true
    //This allows us to access the env file
    //was not working with heroku, getting errors, going to fix later
-    //require('dotenv').config()
+    require('dotenv').config()
 
 }
 
