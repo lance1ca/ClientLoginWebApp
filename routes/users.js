@@ -1,11 +1,11 @@
 
 //This allows us to access the env file
 
-
+const notInProduction = false
 
 if (process.env.NODE_ENV == "production") {
 
-   const notInProduction = true
+   notInProduction = true
     //require('dotenv').config()
 
 
