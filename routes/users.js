@@ -6,7 +6,7 @@
 if (process.env.NODE_ENV == "production") {
 
    const notInProduction = true
-    require('dotenv').config()
+    //require('dotenv').config()
 
 
 
