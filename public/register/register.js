@@ -4,6 +4,7 @@ const zxcvbn = require('zxcvbn')
 
 
 function validateForm(event){   
+    console.log('front end check')
     event.preventDefault() // stops submit form to get submitted in order to do the checks first
     
 
