@@ -5,4 +5,24 @@ It enables you to select a class, and then a child class inside that class*/
     padding-right:300px;
   } */
 
+  .navbar-nav{
+      flex:1;
+      display:flex;
+      justify-content: space-between;
+}
+  
+
+/* .navbar-custom {
+    background-color: lightgreen;
+}
+
+.navbar-custom .navbar-text{
+    color:black
+} */
+
+
+    
+
+
+
  
