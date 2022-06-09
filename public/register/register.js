@@ -58,7 +58,9 @@ if(validator.isEmail(email)){
 }
 }else{
     alert('You are missing required fields.')
+
 }
+
 
 
 }
