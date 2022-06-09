@@ -1,0 +1,28 @@
+/*> is a child combinator, placed between two CSS selectors
+It enables you to select a class, and then a child class inside that class*/
+/* .navbar-brand{
+    
+    padding-right:300px;
+  } */
+
+  .navbar-nav{
+      flex:1;
+      display:flex;
+      justify-content: space-between;
+}
+  
+
+/* .navbar-custom {
+    background-color: lightgreen;
+}
+
+.navbar-custom .navbar-text{
+    color:black
+} */
+
+
+    
+
+
+
+ 
