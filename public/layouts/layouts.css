@@ -11,15 +11,85 @@ It enables you to select a class, and then a child class inside that class*/
       justify-content: space-between;
 }
   
-
-/* .navbar-custom {
-    background-color: lightgreen;
+/* // X-Small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) { 
+    .myLogo{
+        width:215px;
+        height:70px;
+    }
+    .test{
+        background-color: pink;
+    }
+    
 }
 
-.navbar-custom .navbar-text{
-    color:black
-} */
 
+/* 
+// X-Small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap */
+
+/* // Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) { 
+    .myLogo{
+        width:350px;
+        height:85px;
+    }
+    .test{
+        background-color: green;
+    }
+    
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px){ 
+    .myLogo{
+        width:350px;
+        height:85px;
+    }
+    .test{
+        background-color: purple;
+    }
+    
+}
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+    .myLogo{
+        width:350px;
+        height:85px;
+    }
+    .test{
+        background-color: red;
+    }
+    
+    
+}
+
+/* // X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+    .myLogo{
+        width:350px;
+        height:85px;
+    }
+    .test{
+        background-color: blue;
+    }
+    
+    
+}
+
+/* // XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) { 
+    .myLogo{
+        width:350px;
+        height:85px;
+    }
+    .test{
+        background-color: grey;
+    }
+    
+    
+}
 
     
 
