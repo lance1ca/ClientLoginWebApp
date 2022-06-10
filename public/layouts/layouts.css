@@ -54,12 +54,12 @@ background-color: #846C5B;
 
 }
 
-.submit-custom{
+.searchSubmit{
     border-color: #a8968c;
     color: #a8968c;
 }
 
-.submit-custom:hover{
+.searchSubmit:hover{
     border-color: #a8968c;
     background-color: #2a7a5a;
     color:#121111;
@@ -81,6 +81,16 @@ background-color: #846C5B;
   
 /* // X-Small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) { 
+
+    .searchInput{
+        width:180px !important;
+        margin-right: 2;
+        padding-right: 2;
+            }
+
+
+
+   
  
     .test{
         background-color: pink;
