@@ -20,7 +20,7 @@
   <!-- navbar-dark bg-dark -->
     
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href="/"><img class = "myLogo" src="../images/LRWD.png"  alt="Logo"></a>
+        <a class="navbar-brand" href="/"><img class = "myLogo" src="../images/LR_color_logo_crop.png"  width="215px" height="70px" alt="Logo"></a>
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -40,13 +40,15 @@
               <li class="nav-item  mx-auto">
                 <a class="nav-link" href="/">Projects</a>
               </li>
-         
+              
+                <form class="form-inline mx-auto">
+                  <input class="form-control mr-2  searchInput" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success  searchSubmit" type="submit">Search</button>
+                </form>
+              
           
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2 mx-auto" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0 mx-auto submit-custom" type="submit">Search</button>
-          </form>
+          
   
         </div>
       </nav>
@@ -56,6 +58,11 @@
 <div class="test">test</div>
 <%- body %>
 <br>
-<h1>footer</h1>
+<div class="footerSection">
+<footer>
+  <p>Author: Lance Rogan</p>
+  <p>This is an example footer with links to my socials and GitHub</p>
+</footer>
+</div>
 </body>
 </html>

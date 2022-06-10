@@ -11,12 +11,38 @@ It enables you to select a class, and then a child class inside that class*/
     justify-content: space-between;
 }
 
+.footerSection{
+    position:absolute;
+   bottom:0;
+   width:100%;
+   border-radius: 4px;
+    background-color:#0D060F;
+}
+
+.footerSection p{
+    color: #a8968c;
+}
+
+.navbar-brand{
+    border-radius: 4px;
+}
+
+.navbar-brand:hover{
+    background-color: #1E2824
+}
+
 body{
 background-color: #846C5B;
 }
 
 .navbar-custom{
+<<<<<<< HEAD
   background:#0D060F;
+=======
+    border-radius: 4px;
+    width:100%;
+    background:#0D060F;
+>>>>>>> main
 }
 
 .nav-link{
@@ -32,15 +58,17 @@ background-color: #1E2824
 
 }
 
-.submit-custom{
-  border-color: #a8968c;
-  color: #a8968c;
+
+.searchSubmit{
+    border-color: #a8968c;
+    color: #a8968c;
 }
 
-.submit-custom:hover{
-  border-color: #a8968c;
-  background-color: #2a7a5a;
-  color:#121111;
+.searchSubmit:hover{
+    border-color: #a8968c;
+    background-color: #2a7a5a;
+    color:#121111;
+
 }
 
 
@@ -59,14 +87,23 @@ background-color: #1E2824
 
 /* // X-Small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) { 
-  .myLogo{
-      width:215px;
-      height:70px;
-  }
-  .test{
-      background-color: pink;
-  }
-  
+
+
+    .searchInput{
+        width:180px !important;
+        margin-right: 2;
+        padding-right: 2;
+            }
+
+
+
+   
+ 
+    .test{
+        background-color: pink;
+    }
+    
+
 }
 
 
@@ -76,65 +113,60 @@ background-color: #1E2824
 
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) { 
-  .myLogo{
-      width:350px;
-      height:85px;
-  }
-  .test{
-      background-color: green;
-  }
-  
+
+ 
+    .test{
+        background-color: green;
+    }
+    
+
 }
 
 /* // Medium devices (tablets, 768px and up) */
 @media (min-width: 768px){ 
-  .myLogo{
-      width:350px;
-      height:85px;
-  }
-  .test{
-      background-color: purple;
-  }
+
   
+    .test{
+        background-color: purple;
+    }
+    
+
 }
 
 /* // Large devices (desktops, 992px and up) */
 @media (min-width: 992px) { 
-  .myLogo{
-      width:350px;
-      height:85px;
-  }
-  .test{
-      background-color: red;
-  }
+
   
-  
+    .test{
+        background-color: red;
+    }
+    
+    
+
 }
 
 /* // X-Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) { 
-  .myLogo{
-      width:350px;
-      height:85px;
-  }
-  .test{
-      background-color: blue;
-  }
-  
-  
+
+   
+    .test{
+        background-color: blue;
+    }
+    
+    
+
 }
 
 /* // XX-Large devices (larger desktops, 1400px and up) */
 @media (min-width: 1400px) { 
-  .myLogo{
-      width:350px;
-      height:85px;
-  }
-  .test{
-      background-color: grey;
-  }
+
   
-  
+    .test{
+        background-color: grey;
+    }
+    
+    
+
 }
 
   
