@@ -10,6 +10,52 @@ It enables you to select a class, and then a child class inside that class*/
       display:flex;
       justify-content: space-between;
 }
+
+body{
+background-color: #846C5B;
+}
+
+.navbar-custom{
+    background:#0D060F;
+}
+
+.nav-link{
+    color: #a8968c !important;
+   border-radius: 4px;
+   padding-left: 10px !important;
+   padding-right: 10px !important;
+    
+}
+
+.nav-link:hover{
+  background-color: #1E2824
+
+}
+
+.submit-custom{
+    border-color: #a8968c;
+    color: #a8968c;
+}
+
+.submit-custom:hover{
+    border-color: #a8968c;
+    background-color: #2a7a5a;
+    color:#121111;
+}
+
+
+   /* Set the border color */
+          
+   .custom-toggler.navbar-toggler {
+    border-color: #a8968c;
+}
+/* Setting the stroke to green using rgb values (0, 128, 0) */
+.custom-toggler .navbar-toggler-icon {
+    background-image: url(
+"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(168, 150, 140, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+
   
 /* // X-Small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) { 
