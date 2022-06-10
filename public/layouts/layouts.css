@@ -11,11 +11,33 @@ It enables you to select a class, and then a child class inside that class*/
       justify-content: space-between;
 }
 
+.footerSection{
+    position:absolute;
+   bottom:0;
+   width:100%;
+   border-radius: 4px;
+    background-color:#0D060F;
+}
+
+.footerSection p{
+    color: #a8968c;
+}
+
+.navbar-brand{
+    border-radius: 4px;
+}
+
+.navbar-brand:hover{
+    background-color: #1E2824
+}
+
 body{
 background-color: #846C5B;
 }
 
 .navbar-custom{
+    border-radius: 4px;
+    width:100%;
     background:#0D060F;
 }
 
@@ -59,10 +81,7 @@ background-color: #846C5B;
   
 /* // X-Small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) { 
-    .myLogo{
-        width:215px;
-        height:70px;
-    }
+ 
     .test{
         background-color: pink;
     }
@@ -76,10 +95,7 @@ background-color: #846C5B;
 
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) { 
-    .myLogo{
-        width:350px;
-        height:85px;
-    }
+ 
     .test{
         background-color: green;
     }
@@ -88,10 +104,7 @@ background-color: #846C5B;
 
 /* // Medium devices (tablets, 768px and up) */
 @media (min-width: 768px){ 
-    .myLogo{
-        width:350px;
-        height:85px;
-    }
+  
     .test{
         background-color: purple;
     }
@@ -100,10 +113,7 @@ background-color: #846C5B;
 
 /* // Large devices (desktops, 992px and up) */
 @media (min-width: 992px) { 
-    .myLogo{
-        width:350px;
-        height:85px;
-    }
+  
     .test{
         background-color: red;
     }
@@ -113,10 +123,7 @@ background-color: #846C5B;
 
 /* // X-Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) { 
-    .myLogo{
-        width:350px;
-        height:85px;
-    }
+   
     .test{
         background-color: blue;
     }
@@ -126,10 +133,7 @@ background-color: #846C5B;
 
 /* // XX-Large devices (larger desktops, 1400px and up) */
 @media (min-width: 1400px) { 
-    .myLogo{
-        width:350px;
-        height:85px;
-    }
+  
     .test{
         background-color: grey;
     }
