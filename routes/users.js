@@ -30,6 +30,7 @@ const session = require('express-session')
 const { body, validationResult } = require('express-validator');
 const zxcvbn = require('zxcvbn')
 
+//requiring axios to do http requests and calls
 const axios = require('axios');
 
 
@@ -142,8 +143,12 @@ body('last_name', 'Last name is required').exists({checkFalsy: true}),
 body('email', 'User with this email is already registered, please log in.').custom(async (value)=>{
 //trying to run the query and AWAITING its result before proceeding
 //catching an error and printing a descriptive message out if it fails
+
+//initializing the number of rows returned for a user with a specific email
 let numOfRows;
     try{
+        //here we set results to be the awaited return of the axios get request to my aws api and aws lambda function which does the
+        // query for me using HTTPS SSL connection.
         results = await axios
         //.get('https://d2m1ff0s6a.execute-api.ca-central-1.amazonaws.com/database-select-email',  
         .get('https://yf75f3sw9d.execute-api.ca-central-1.amazonaws.com/default/REST-database-email-select',
@@ -153,7 +158,8 @@ let numOfRows;
         .then(res => {
           //console.log(`statusCode: ${res.status}`);
           //console.log("get worked");
-         
+         // then we set the number of rows to be the responses.data.rowCount 
+         //if this is greater than 0, then a user with this email already exists.
           numOfRows = res.data.rowCount;
           //console.log(res.data.rowCount)
           //console.log(numOfRows);
@@ -163,7 +169,7 @@ let numOfRows;
         });
 
 
-
+    //Without AWS lambda / AWS API gateway, you can just use this syntax to query using client.query
     // results = await client.query(`
     // SELECT * FROM clients WHERE email = $1`, [value])
 }catch (error){
@@ -175,9 +181,10 @@ let numOfRows;
 }
 
 if(notInProduction){
-//console.log("RESULTS OF EMAIL QUERY:\n",results.rows)
+console.log("RESULTS OF EMAIL QUERY:\n",results.rows)
 }
 
+// This has now been updated for aws lambda calls with numOfRows
     // if the results objects rows length is greater than 0, aka if the number of rows
     //returned from the database query is more than 0, then there is another user with this email
     //and hence we throw an error with a message, otherwise, we indicate success and that no user has this email
@@ -231,8 +238,8 @@ console.log(uuid, first_name, last_name, email, password, encryptedPassword)
 //We use the syntax of $1, $2, etc as placeholders for the values in the array that follow it
 //Then we have a callback function that displays if the user was registered or if an error occurred
 
-
-
+ //here we await the results to be returned from the axios post request to my aws api and aws lambda function which does the
+// insert query for me using HTTPS SSL connection. Here we send all the required information to the lambda function which does the inserting for us.
 await axios
   //.post('https://tenevq35d6.execute-api.ca-central-1.amazonaws.com/database-insert', { THIS IS THE HTTP API
     .post('https://kxu76e17rd.execute-api.ca-central-1.amazonaws.com/default/REST-database-insert',{ //THIS IS THE REST API
@@ -251,16 +258,16 @@ await axios
   });
 
 
-
+//send the user a success message when complete
 req.flash('register_message', 'Account created successfully')
-//              //redirect the user to the login page, and send in the successful register message
+             //redirect the user to the login page, and send in the successful register message
               res.redirect('/users/login')
 
 
 
 
 
-
+//This is the syntax to use client.query to do the insertion into the database without the use of aws lambda and aws api gateway
 // client.query(
 //      `INSERT INTO clients (id, first_name, last_name, email, password)
 //      VALUES ($1, $2, $3, $4, $5)`, [uuid,first_name, last_name,email,encryptedPassword], (error,result)=>{
