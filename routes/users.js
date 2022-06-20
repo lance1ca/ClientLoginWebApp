@@ -30,7 +30,7 @@ const session = require('express-session')
 const { body, validationResult } = require('express-validator');
 const zxcvbn = require('zxcvbn')
 
-
+const axios = require('axios');
 
 
 //passport stuff
@@ -143,8 +143,26 @@ body('email', 'User with this email is already registered, please log in.').cust
 //trying to run the query and AWAITING its result before proceeding
 //catching an error and printing a descriptive message out if it fails
     try{
-    results = await client.query(`
-    SELECT * FROM clients WHERE email = $1`, [value])
+        await axios
+        .get('https://d2m1ff0s6a.execute-api.ca-central-1.amazonaws.com/database-select-email',  
+          { params: { email: email } },
+          
+        )
+        .then(res => {
+          //console.log(`statusCode: ${res.status}`);
+          console.log("get worked");
+          let numOfRows = res.data.rowCount;
+          console.log(res.data.rowCount)
+          console.log(numOfRows);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+
+
+    // results = await client.query(`
+    // SELECT * FROM clients WHERE email = $1`, [value])
 }catch (error){
     if(notInProduction){
     console.error('Error trying to query database to check if a user with the entered email already exists upon registration.')
@@ -161,7 +179,8 @@ console.log("RESULTS OF EMAIL QUERY:\n",results.rows)
     //returned from the database query is more than 0, then there is another user with this email
     //and hence we throw an error with a message, otherwise, we indicate success and that no user has this email
     // and we proceed to register the user
-        if(results.rows.length > 0){
+        // if(results.rows.length > 0){
+            if(numOfRows>0){
             
             throw new Error('A user with this email is already registered, please log in.')
         }else{
@@ -209,29 +228,55 @@ console.log(uuid, first_name, last_name, email, password, encryptedPassword)
 //We use the syntax of $1, $2, etc as placeholders for the values in the array that follow it
 //Then we have a callback function that displays if the user was registered or if an error occurred
 
+await axios
+  .post('https://tenevq35d6.execute-api.ca-central-1.amazonaws.com/database-insert', {
+    uuid:uuid,
+    first_name:first_name,
+    last_name:last_name,
+    email:email,
+    encryptedPassword: encryptedPassword
+  })
+  .then(res => {
+    console.log(`statusCode: ${res.status}`);
+    console.log(res);
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
-client.query(
-     `INSERT INTO clients (id, first_name, last_name, email, password)
-     VALUES ($1, $2, $3, $4, $5)`, [uuid,first_name, last_name,email,encryptedPassword], (error,result)=>{
-         if(error){
-            if(notInProduction){
-             console.log("ERROR registering user and inserting values into database")
-            }else{
-             console.log(error)
-            }
-         }else{
-             //show that the user has been successfully registered on console
-             if(notInProduction){
-             console.log('User successfully registered')
-             }
+
+
+req.flash('register_message', 'Account created successfully')
+//              //redirect the user to the login page, and send in the successful register message
+              res.redirect('/users/login')
+
+
+
+
+
+
+// client.query(
+//      `INSERT INTO clients (id, first_name, last_name, email, password)
+//      VALUES ($1, $2, $3, $4, $5)`, [uuid,first_name, last_name,email,encryptedPassword], (error,result)=>{
+//          if(error){
+//             if(notInProduction){
+//              console.log("ERROR registering user and inserting values into database")
+//             }else{
+//              console.log(error)
+//             }
+//          }else{
+//              //show that the user has been successfully registered on console
+//              if(notInProduction){
+//              console.log('User successfully registered')
+//              }
 
             
-            req.flash('register_message', 'Account created successfully')
-             //redirect the user to the login page, and send in the successful register message
-             res.redirect('/users/login')
-         }
-     } 
- )
+//             req.flash('register_message', 'Account created successfully')
+//              //redirect the user to the login page, and send in the successful register message
+//              res.redirect('/users/login')
+//          }
+//      } 
+//  )
     }else{
         let register_errors = []
         if(notInProduction){
