@@ -142,18 +142,20 @@ body('last_name', 'Last name is required').exists({checkFalsy: true}),
 body('email', 'User with this email is already registered, please log in.').custom(async (value)=>{
 //trying to run the query and AWAITING its result before proceeding
 //catching an error and printing a descriptive message out if it fails
+let numOfRows;
     try{
-        await axios
+        results = await axios
         .get('https://d2m1ff0s6a.execute-api.ca-central-1.amazonaws.com/database-select-email',  
-          { params: { email: email } },
+          { params: { email: value } },
           
         )
         .then(res => {
           //console.log(`statusCode: ${res.status}`);
           console.log("get worked");
-          let numOfRows = res.data.rowCount;
-          console.log(res.data.rowCount)
-          console.log(numOfRows);
+         
+          numOfRows = res.data.rowCount;
+          //console.log(res.data.rowCount)
+          //console.log(numOfRows);
         })
         .catch(error => {
           console.error(error);
@@ -172,7 +174,7 @@ body('email', 'User with this email is already registered, please log in.').cust
 }
 
 if(notInProduction){
-console.log("RESULTS OF EMAIL QUERY:\n",results.rows)
+//console.log("RESULTS OF EMAIL QUERY:\n",results.rows)
 }
 
     // if the results objects rows length is greater than 0, aka if the number of rows
