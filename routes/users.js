@@ -151,7 +151,7 @@ let numOfRows;
         )
         .then(res => {
           //console.log(`statusCode: ${res.status}`);
-          console.log("get worked");
+          //console.log("get worked");
          
           numOfRows = res.data.rowCount;
           //console.log(res.data.rowCount)
@@ -239,8 +239,8 @@ await axios
     encryptedPassword: encryptedPassword
   })
   .then(res => {
-    console.log(`statusCode: ${res.status}`);
-    console.log(res);
+    //console.log(`statusCode: ${res.status}`);
+    //console.log(res);
   })
   .catch(error => {
     console.error(error);
