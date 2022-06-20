@@ -145,7 +145,8 @@ body('email', 'User with this email is already registered, please log in.').cust
 let numOfRows;
     try{
         results = await axios
-        .get('https://d2m1ff0s6a.execute-api.ca-central-1.amazonaws.com/database-select-email',  
+        //.get('https://d2m1ff0s6a.execute-api.ca-central-1.amazonaws.com/database-select-email',  
+        .get('https://yf75f3sw9d.execute-api.ca-central-1.amazonaws.com/default/REST-database-email-select',
           { params: { email: value } },
           
         )
@@ -230,8 +231,11 @@ console.log(uuid, first_name, last_name, email, password, encryptedPassword)
 //We use the syntax of $1, $2, etc as placeholders for the values in the array that follow it
 //Then we have a callback function that displays if the user was registered or if an error occurred
 
+
+
 await axios
-  .post('https://tenevq35d6.execute-api.ca-central-1.amazonaws.com/database-insert', {
+  //.post('https://tenevq35d6.execute-api.ca-central-1.amazonaws.com/database-insert', { THIS IS THE HTTP API
+    .post('https://kxu76e17rd.execute-api.ca-central-1.amazonaws.com/default/REST-database-insert',{ //THIS IS THE REST API
     uuid:uuid,
     first_name:first_name,
     last_name:last_name,
