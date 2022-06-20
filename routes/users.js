@@ -20,6 +20,8 @@ if (process.env.NODE_ENV !== "production") {
 const express = require('express');
 const router = express.Router();
 const client = require('../database.js')
+const url = require('url')
+
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 const flash = require('connect-flash')
